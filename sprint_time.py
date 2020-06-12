@@ -6,64 +6,88 @@ import datetime
 
 import config
 
-def sprint_end(time_remaining):
+@config.bot.event
+async def sprint_end(ctx, end_time):
     print("DEBUGGING: SPRINT END")
 
-    sprint_timer(time_remaining, False)
+    await ctx.send("Sprint has ended! Please enter your wcs!")
 
-    #await message.channel.send("Sprint end!")
     return schedule.CancelJob
 
-def sprint_start(time_remaining):
+@config.bot.event
+async def sprint_start(ctx, start_time):
     print("DEBUGGING: SPRINT START")
 
-    sprint_timer(time_remaining, True)
 
-    #await message.channel.send("Sprint start!")
+    await ctx.send("Sprint will now begin! Start writing!")
+
     return schedule.CancelJob
 
-#gives time remaining
-def sprint_timer(time_remaining, sprint_run):
-    print("DEBUG: TO DELETE")
+# #gives time remaining
+# def sprint_timer(time_remaining, wrap_around, sprint_run):
+#     time_left=0
+#     now = datetime.datetime.now()
+#     minutes_goal = now.minute
 
-#sets the starting and end time in scheduler
-def set_times(start_time, end_time):
-    length_of_wrap_around=0
-    start_minutes='0'
-    start_seconds='0'
-    end_minutes='0'
-    end_seconds='0'
-    length_of_sprint=0
-    time_remaining = length_of_sprint
+#     if wrap_around == 0:
+#         time_left -= minutes_goal - time_remaining
+#     else:
+#         minutes_goal += (60 * wrap_around)
+#         time_left -= minutes_goal - time_remaining
 
-    print("DEBUGGING: SETTING TIME")
+#     print(time_left + " remaining!")
 
-    if int(start_time) < 0:
-        return "Sprint cannot run in negative time."
+#     return minutes_goal
 
-    #starting time
-    now = datetime.datetime.now()
+# #sets the start time in the scheduler
+# def set_start(start_time):
+#     length_of_wrap_around_beginning=0
+#     start_minutes='0'
+#     start_seconds='0'
 
-    print(now)
+#     print("DEBUGGING: SETTING TIME")
 
-    start_minutes = str(int(now.minute) + int(start_time))
-    start_seconds = str(now.second)
+#     if int(start_time) < 0:
+#         return "Sprint cannot run in negative time."
 
-    print("DEBUGGING: " + start_minutes)
-    print(schedule.every(int(start_time)).minutes.do(sprint_start(time_remaining)))
+#     #starting time
+#     now = datetime.datetime.now()
 
-    #ending time
-    temp = int(start_minutes) + int(end_time)
+#     start_minutes = str(int(now.minute) + int(start_time))
+#     start_seconds = str(now.second)
 
-    while temp >= 60:
-        temp -= 60
-        length_of_wrap_around += 1
-        end_minutes = str(temp)
+#     temp = int(start_minutes)
 
-    end_seconds = start_seconds
+#     while temp >= 60:
+#         temp -= 60
+#         length_of_wrap_around_beginning += 1
+#         start_minutes = str(temp)
 
-    print("DEBUGGING: " + end_minutes)
-    print(schedule.every(int(end_time)).minutes.do(sprint_end(time_remaining)))
+#     time_remaining = start_time
+#     print("DEBUGGING: " + start_minutes)
+#     schedule.every(int(start_time)).minutes.do(sprint_start, time_remaining, length_of_wrap_around_beginning)
+
+# #sets the end time in the scheduler
+# def set_end(end_time):
+#     length_of_wrap_around_end=0
+#     length_of_sprint=int(end_time)
+
+#     #ending time
+#     now = datetime.datetime.now()
+
+#     temp = int(now.minute) + int(end_time)
+#     end_minutes = temp
+
+#     while temp >= 60:
+#         temp -= 60
+#         length_of_wrap_around_end += 1
+#         end_minutes = str(temp)
+
+#     end_seconds = now.second
+
+#     time_remaining = length_of_sprint
+#     print("DEBUGGING: " + end_minutes)
+#     schedule.every(int(end_time)).minutes.do(sprint_end, time_remaining, length_of_wrap_around_end)
 
 def only_one_sprint():
     #TODO: ensures there is only one sprint happening
