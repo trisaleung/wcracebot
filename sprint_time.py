@@ -6,17 +6,25 @@ import datetime
 
 import config
 
-def sprint_end():
+def sprint_end(time_remaining):
     print("DEBUGGING: SPRINT END")
 
-    #await channel.send("Sprint end!")
+    sprint_timer(time_remaining, False)
+
+    #await message.channel.send("Sprint end!")
     return schedule.CancelJob
 
-def sprint_start():
+def sprint_start(time_remaining):
     print("DEBUGGING: SPRINT START")
 
-    #await channel.send("Sprint start!")
+    sprint_timer(time_remaining, True)
+
+    #await message.channel.send("Sprint start!")
     return schedule.CancelJob
+
+#gives time remaining
+def sprint_timer(time_remaining, sprint_run):
+    print("DEBUG: TO DELETE")
 
 #sets the starting and end time in scheduler
 def set_times(start_time, end_time):
@@ -26,6 +34,7 @@ def set_times(start_time, end_time):
     end_minutes='0'
     end_seconds='0'
     length_of_sprint=0
+    time_remaining = length_of_sprint
 
     print("DEBUGGING: SETTING TIME")
 
@@ -41,12 +50,12 @@ def set_times(start_time, end_time):
     start_seconds = str(now.second)
 
     print("DEBUGGING: " + start_minutes)
-    schedule.every(int(start_minutes)).minutes.do(sprint_start)
+    print(schedule.every(int(start_time)).minutes.do(sprint_start(time_remaining)))
 
     #ending time
     temp = int(start_minutes) + int(end_time)
 
-    while int(temp) >= 60:
+    while temp >= 60:
         temp -= 60
         length_of_wrap_around += 1
         end_minutes = str(temp)
@@ -54,7 +63,7 @@ def set_times(start_time, end_time):
     end_seconds = start_seconds
 
     print("DEBUGGING: " + end_minutes)
-    schedule.every(int(end_minutes)).minutes.do(sprint_end)
+    print(schedule.every(int(end_time)).minutes.do(sprint_end(time_remaining)))
 
 def only_one_sprint():
     #TODO: ensures there is only one sprint happening
