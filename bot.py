@@ -3,9 +3,7 @@ from discord.ext import commands
 
 import config
 import sprint_time
-
 import schedule
-import threading
 
 @config.bot.event
 async def on_ready():
