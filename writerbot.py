@@ -21,15 +21,17 @@ async def sprint(ctx, arg1, arg2, arg3):
         await ctx.send(
             "A sprint has been scheduled for {} minutes in {} minutes. Join sprint with ``-join <wc>``".format(
                 arg1, arg3))
+        
+        def check(m):
+            return m.content == 'hello'
+
+        msg = await config.bot.wait_for("-join", check=check)
 
         await sprint_time.sprint_wait(ctx, int(arg3))
         await sprint_time.sprint_start(ctx, int(arg3))
 
         await sprint_time.sprint_run(ctx, int(arg1))
         await sprint_time.sprint_end(ctx, int(arg1))
-
-        timer_thread = threading.Thread(target=sprint)
-        timer_thread.start()
 
 @config.bot.command()
 async def join(ctx, arg1):
@@ -43,4 +45,8 @@ async def time(ctx):
 async def quit(ctx):
     await ctx.send("Quitting sprint.")
 
-config.bot.run("NzIwNzIzNDkzMzE0MTAxMjgw.XuPd2g.ISAyWLW_I3PAr51C8sXuWJcg6ZE")
+@config.bot.command()
+async def prompt(ctx):
+    await ctx.send("prompt here.")
+
+config.bot.run("XXXXXX")
