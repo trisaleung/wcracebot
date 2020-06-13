@@ -28,8 +28,4 @@ async def sprint(ctx, arg1, arg2, arg3):
         await sprint_time.sprint_run(ctx, int(arg1))
         await sprint_time.sprint_end(ctx, int(arg1))
 
-@config.bot.command()
-async def prompt(ctx):
-    await ctx.send("prompt here.")
-
-config.bot.run("XXXXXX")
+config.bot.run("XXXXX")
