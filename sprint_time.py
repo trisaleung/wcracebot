@@ -11,7 +11,7 @@ async def sprint_end(ctx, time_end):
 
     while True:
         tic = time.time()
-        if tic-toc >= (time_end * 60):
+        if tic - toc >= (time_end * 60):
             break
 
     schedule.clear("timer")
